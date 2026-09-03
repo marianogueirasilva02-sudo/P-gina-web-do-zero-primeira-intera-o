@@ -7,8 +7,8 @@
     <title>Blog</title>
 <style>
 header{
-
- 
+background-color: #002b7c;
+ color: #e9ebec;
  text-align: center;
 max-width: 800px;
 margin: 0 auto;
@@ -18,42 +18,49 @@ margin: 0 auto;
  main{
   background-color:#e9ebec;
   color: #002b7c
-  max-width: 800px;
-  man
+ max-width: 800px;
+  margin: auto;
   padding: 16px;
-display: flex;
-      
+ display: flex;
  } 
 
 img{
-
-
 width: 80px;
 height: 80px;
-}
- div p {
-    font-weight: bold;
-}
-
+  }
+ .artigo-autor {
+font-weight: bold;
+ }
+    
 </style>
 </head>
 
 <body>
 <header>
-    <h1>Meu blog tech</h1>
+ <h1>Meu blog tech</h1>
 <p>Vou compartilhar conhecimentos sobre tecnologia e programação </p>
-</header>
- <main>
-<img src="tec.png" alt="Ícone moderno e tecnológico com fundo azul e roxo exibindo um livro aberto brilhante, de onde se projetam engrenagens, circuitos digitais e um foguete em ascensão com uma lâmpada ao topo, simbolizando a união entre educação e inovação tecnológica.">
-   <h2>Meu primeiro post</h2>
-<p class='artigo-autor'>para: Maria Nogueira</p>
- <p>Boas vindas ao meu novo blog! Aqui vou compartilhar dicas de programação e curiosidades da área da tecnologia. </p>
-<button>​💗  <span>0</span>0</button>
- <div>
- 
- </main>
- </body>
- <script>
-    const botao = document.querySelector('button');
- </script>
- </html>
+ </header>
+<main>
+   <img src="tec.png" 
+    alt="Ícone moderno e tecnológico com fundo azul e roxo exibindo um livro aberto brilhante, de onde se projetam engrenagens, circuitos digitais e um foguete em ascensão com uma lâmpada ao topo, simbolizando a união entre educação e inovação tecnológica.">
+  <div>
+  <h2>Meu primeiro post</h2>
+   <p class='artigo-autor'>para: Maria Nogueira</p>  
+  <p>Boas vindas ao meu novo blog! Aqui vou compartilhar dicas de programação e curiosidades da área da tecnologia. </p>
+  <button>​💗  <span>0</span>0</button>
+  </div>
+
+</main>
+    <body>
+    <script>
+      const botao = document.querySelector('button');   
+    botao.addEventListener('click', botaoClicado);
+    
+    function botaoClicado(){
+   console.log('fui clicado ');
+ let texto = botao.querySelector('span');
+  texto.textContent++;
+]
+        </script>    
+    </body>
+</html> 
