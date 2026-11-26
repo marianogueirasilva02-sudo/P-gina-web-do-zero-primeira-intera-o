@@ -4,120 +4,359 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog</title>
-  <!-- Conecta com o arquivo CSS -->
-  <link rel="stylesheet" href="style.css">
+  <title>Meu Blog Tech</title>
+  <style>
+    /* Variáveis de cores - Modo Escuro como padrão */
+    :root {
+      --bg-color: #121214;
+      --card-bg: #202024;
+      --text-color: #e1e1e6;
+      --text-muted: #a8a8b3;
+      --accent-color: #8257e5;
+      --accent-hover: #996dff;
+      --border-color: #323238;
+      --btn-bg: #29292e;
+      --btn-hover: #3c3c42;
+      --liked-bg: rgba(130, 87, 229, 0.25);
+    }
+
+    /* Variáveis de cores - Modo Claro */
+    body.light-mode {
+      --bg-color: #f4f4f5;
+      --card-bg: #ffffff;
+      --text-color: #18181b;
+      --text-muted: #52525b;
+      --accent-color: #633bbc;
+      --accent-hover: #7c4dff;
+      --border-color: #e4e4e7;
+      --btn-bg: #e4e4e7;
+      --btn-hover: #d4d4d8;
+      --liked-bg: rgba(99, 59, 188, 0.15);
+    }
+
+    /* Corrigido: era "- {" e agora é "* {" */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s ease, color 0.3s ease;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 2rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    header h1 {
+      color: var(--accent-color);
+      font-size: 2rem;
+    }
+
+    header p {
+      color: var(--text-muted);
+    }
+
+    /* Botão de alternar tema */
+    #toggle-theme {
+      background-color: var(--accent-color);
+      color: #ffffff;
+      border: none;
+      padding: 0.7rem 1.3rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      transition: background-color 0.2s, transform 0.15s;
+    }
+
+    #toggle-theme:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-2px);
+    }
+
+    #toggle-theme:active {
+      transform: translateY(0);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    article {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    article img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      background-color: var(--btn-bg);
+      flex-shrink: 0;
+    }
+
+    article h2 {
+      margin-bottom: 0.3rem;
+      font-size: 1.4rem;
+    }
+
+    .artigo-autor,
+    .artigo-fonte {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .artigo-fonte {
+      margin-top: 0.8rem;
+      font-style: italic;
+    }
+
+    /* Contêiner para alinhar os botões de curtida */
+    .acoes-post {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    /* Botões de curtida */
+    .btn-like {
+      background-color: var(--btn-bg);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      padding: 0.45rem 0.95rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-like:hover {
+      background-color: var(--btn-hover);
+      border-color: var(--accent-color);
+      transform: translateY(-1px);
+    }
+
+    .btn-like:active {
+      transform: scale(0.94);
+    }
+
+    /* Estilo quando o botão está curtido */
+    .btn-like.liked {
+      background-color: var(--liked-bg);
+      border-color: var(--accent-color);
+      color: var(--accent-hover);
+    }
+
+    /* Responsividade para celulares */
+    @media (max-width: 600px) {
+      article {
+        flex-direction: column;
+      }
+
+      article img {
+        width: 100%;
+        height: 180px;
+      }
+    }
+  </style>
 </head>
 
-<body class="dark-mode">
+<body>
   <header>
     <div>
       <h1>Meu Blog Tech</h1>
-      <p>Vou Compartilhar conhecimentos sobre tecnologia e programação</p>
+      <p>Vou compartilhar conhecimentos sobre tecnologia e programação</p>
     </div>
     <button id="toggle-theme" type="button" aria-label="Alternar tema">☀️ Modo Claro</button>
   </header>
 
   <main>
     <article>
-      <img src="watermarked_img_12820126177495059014.webp" alt="Ícone quadrado para blog de tecnologia e educação. No centro, um livro aberto com circuitos digitais integrados e uma lâmpada acesa saindo do meio. Dentro da lâmpada, há um capelo de formatura e conexões de rede. Fundo em gradiente azul e verde.">
+      <img src="tb" alt="Ícone quadrado para blog de tecnologia e educação.">
       <div>
         <h2>Meu primeiro post</h2>
-        <p class="artigo-autor">Por: kauê almeida</p>
+        <p class="artigo-autor">Por: Maria</p>
         <p>Boas-vindas ao meu novo blog! Aqui vou compartilhar dicas de programação e curiosidades da área de tecnologia.</p>
 
-        <button class="btn-like" type="button">❤️ <span>0</span></button>
-        <button class="btn-like" type="button">👍 <span>0</span></button>
+        <div class="acoes-post">
+          <button class="btn-like" type="button" aria-pressed="false">❤️ <span>0</span></button>
+          <button class="btn-like" type="button" aria-pressed="false">👍 <span>0</span></button>
+        </div>
       </div>
     </article>
 
     <article>
-      <img src="webp" alt="Ícone quadrado para blog de tecnologia e educação. No centro, um livro aberto com circuitos digitais integrados e uma lâmpada acesa saindo do meio. Dentro da lâmpada, há um capelo de formatura e conexões de rede. Fundo em gradiente azul e verde.">
+      <img src="tecc" alt="hIlustração de um mouse antigo com bolina.">
       <div>
         <h2>Mouse Antigo</h2>
-        <p class="artigo-autor">Por: kauê almeida</p>
-        <p>Antes do design ergonomico e das luzers RGB, o mouse era bem simples e não tinham sensores, usavam uma bolinha em baixo do mouse para ele funcionar</p>
+        <p class="artigo-autor">Por: Maria</p>
+        <p>Antes do design ergonômico e das luzes RGB, o mouse era bem simples e não tinha sensores; usava uma bolinha embaixo para funcionar.</p>
 
-        <p class="artigo-fonte">Fonte:Google</p>
+        <p class="artigo-fonte">Fonte: Google</p>
 
-        <button class="btn-like" type="button">❤️ <span>0</span></button>
-        <button class="btn-like" type="button">👍 <span>0</span></button>
+        <div class="acoes-post">
+          <button class="btn-like" type="button" aria-pressed="false">❤️ <span>0</span></button>
+          <button class="btn-like" type="button" aria-pressed="false">👍 <span>0</span></button>
+        </div>
       </div>
     </article>
 
     <article>
-      <img src="img,g" alt="Ícone quadrado para blog de tecnologia e educação. No centro, um livro aberto com circuitos digitais integrados e uma lâmpada acesa saindo do meio. Dentro da lâmpada, há um capelo de formatura e conexões de rede. Fundo em gradiente azul e verde.">
+      <img src="wepp" alt="Ilustração de um teclado antigo retrô.">
       <div>
-        <h2>teclado antigo</h2>
-        <p class="artigo-autor">Por: kauẽ almeida</p>
+        <h2>Teclado antigo</h2>
+        <p class="artigo-autor">Por: Maria</p>
         <p>Os teclados antigos, conhecidos pelo visual retrô e pela durabilidade, despertam o interesse de colecionadores e de quem busca uma digitação mais confortável. Seja para restaurar um clássico real ou usar um modelo moderno com estilo vintage, o mercado oferece opções fascinantes.</p>
 
-        <p class="artigo-fonte">Fonte:Google</p>
+        <p class="artigo-fonte">Fonte: Google</p>
 
-        <button class="btn-like" type="button">❤️ <span>0</span></button>
-        <button class="btn-like" type="button">👍 <span>0</span></button>
+        <div class="acoes-post">
+          <button class="btn-like" type="button" aria-pressed="false">❤️ <span>0</span></button>
+          <button class="btn-like" type="button" aria-pressed="false">👍 <span>0</span></button>
+        </div>
       </div>
     </article>
 
     <article>
-      <img src="img.k" alt="Ícone quadrado para blog de tecnologia e educação. No centro, um livro aberto com circuitos digitais integrados e uma lâmpada acesa saindo do meio. Dentro da lâmpada, há um capelo de formatura e conexões de rede. Fundo em gradiente azul e verde.">
+      <img src="tubo" alt="Ilustração de um monitor de tubo antigo.">
       <div>
         <h2>Monitor antigo</h2>
-        <p class="artigo-autor">Por: kauê almeida</p>
+        <p class="artigo-autor">Por: Maria</p>
         <p>Os monitores antigos, marcados pela era das telas pesadas e volumosas, ganharam um status nostálgico e hoje são itens desejados por colecionadores de retrocomputing, entusiastas de jogos antigos (retrogaming) e estúdios de design.</p>
 
-        <p class="artigo-fonte">Fonte:Google</p>
+        <p class="artigo-fonte">Fonte: Google</p>
 
-        <button class="btn-like" type="button">❤️ <span>0</span></button>
-        <button class="btn-like" type="button">👍 <span>0</span></button>
+        <div class="acoes-post">
+          <button class="btn-like" type="button" aria-pressed="false">❤️ <span>0</span></button>
+          <button class="btn-like" type="button" aria-pressed="false">👍 <span>0</span></button>
+        </div>
       </div>
     </article>
 
     <article>
-      <img src="img.i" alt="Ícone quadrado para blog de tecnologia e educação. No centro, um livro aberto com circuitos digitais integrados e uma lâmpada acesa saindo do meio. Dentro da lâmpada, há um capelo de formatura e conexões de rede. Fundo em gradiente azul e verde.">
+      <img src="gab" alt="Ilustração de um gabinete bege antigo.">
       <div>
-        <h2>gabinete antigo</h2>
-        <p class="artigo-autor">Por: kauê almeida</p>
+        <h2>Gabinete antigo</h2>
+        <p class="artigo-autor">Por: Maria</p>
         <p>Os gabinetes de computador antigos, especialmente os modelos das décadas de 1980 e 1990, tornaram-se itens raros e valiosos no movimento de retrocomputing. Conhecidos pelo visual robusto, chapas de metal grossas e a icônica cor bege, eles representam a era de ouro da computação pessoal.</p>
 
-        <p class="artigo-fonte">Fonte:Google</p>
+        <p class="artigo-fonte">Fonte: Google</p>
 
-        <button class="btn-like" type="button">❤️ <span>0</span></button>
-        <button class="btn-like" type="button">👍 <span>0</span></button>
+        <div class="acoes-post">
+          <button class="btn-like" type="button" aria-pressed="false">❤️ <span>0</span></button>
+          <button class="btn-like" type="button" aria-pressed="false">👍 <span>0</span></button>
+        </div>
       </div>
     </article>
 
     <article>
-      <img src="camera.webp" alt="icone qyadrado de uma cmara fotofrafica">
+      <img src="cam" alt="Ícone quadrado de uma câmera fotográfica.">
       <div>
-        <h2>Camera antiga</h2>
-        <p class="artigo-autor">Por: kauê almeida</p>
+        <h2>Câmera antiga</h2>
+        <p class="artigo-autor">Por: Maria</p>
         <p>As câmeras antigas carregam o charme da fotografia analógica e mecânica, atraindo tanto colecionadores quanto jovens interessados na estética granulada e nas cores únicas dos filmes fotográficos. O universo das câmeras vintage abrange desde modelos centenários até as primeiras digitais dos anos 2000.</p>
 
-        <p class="artigo-fonte">Fonte:Google</p>
+        <p class="artigo-fonte">Fonte: Google</p>
 
-        <button class="btn-like" type="button">❤️ <span>0</span></button>
-        <button class="btn-like" type="button">👍 <span>0</span></button>
+        <div class="acoes-post">
+          <button class="btn-like" type="button" aria-pressed="false">❤️ <span>0</span></button>
+          <button class="btn-like" type="button" aria-pressed="false">👍 <span>0</span></button>
+        </div>
       </div>
     </article>
 
     <article>
-      <img src="livro.tec" alt="Ícone quadrado para blog de tecnologia e educação. No centro, um livro aberto com circuitos digitais integrados e uma lâmpada acesa saindo do meio. Dentro da lâmpada, há um capelo de formatura e conexões de rede. Fundo em gradiente azul e verde.">
+      <img src="vp" alt="Ilustração de uma placa-mãe antiga.">
       <div>
-        <h2>placa mãe antiga</h2>
-        <p class="artigo-autor">Por: kauê almeida</p>
+        <h2>Placa-mãe antiga</h2>
+        <p class="artigo-autor">Por: Maria</p>
         <p>As placas-mãe antigas são a espinha dorsal do retrocomputing. Elas carregam a evolução da arquitetura dos computadores e são essenciais para quem deseja reviver a experiência exata de sistemas operacionais como o MS-DOS, Windows 95 ou Windows XP.</p>
 
-        <p class="artigo-fonte">Fonte:Google</p>
+        <p class="artigo-fonte">Fonte: Google</p>
 
-        <button class="btn-like" type="button">❤️ <span>0</span></button>
-        <button class="btn-like" type="button">👍 <span>0</span></button>
+        <div class="acoes-post">
+          <button class="btn-like" type="button" aria-pressed="false">❤️ <span>0</span></button>
+          <button class="btn-like" type="button" aria-pressed="false">👍 <span>0</span></button>
+        </div>
       </div>
     </article>
   </main>
 
-  <!-- Conecta com o arquivo JavaScript -->
-  <script src="script.js"></script>
+  <script>
+    // Alternar entre Modo Escuro e Modo Claro
+    const toggleButton = document.getElementById('toggle-theme');
+    const body = document.body;
+
+    // Verifica se o usuário já tinha escolhido o modo claro antes
+    if (localStorage.getItem('tema') === 'claro') {
+      body.classList.add('light-mode');
+      toggleButton.textContent = '🌙 Modo Escuro';
+    }
+
+    toggleButton.addEventListener('click', () => {
+      body.classList.toggle('light-mode');
+      const isLight = body.classList.contains('light-mode');
+
+      if (isLight) {
+        toggleButton.textContent = '🌙 Modo Escuro';
+        localStorage.setItem('tema', 'claro');
+      } else {
+        toggleButton.textContent = '☀️ Modo Claro';
+        localStorage.setItem('tema', 'escuro');
+      }
+    });
+
+    // Contador de curtidas nos botões ❤️ e 👍
+    const likeButtons = document.querySelectorAll('.btn-like');
+
+    likeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const countSpan = button.querySelector('span');
+        let currentCount = parseInt(countSpan.textContent, 10) || 0;
+        const isLiked = button.classList.toggle('liked');
+
+        button.setAttribute('aria-pressed', isLiked);
+        countSpan.textContent = isLiked ? currentCount + 1 : currentCount - 1;
+      });
+    });
+  </script>
 </body>
 
 </html>
